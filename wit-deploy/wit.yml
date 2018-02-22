@@ -1,0 +1,22 @@
+name: wit
+
+deployments:
+- containers:
+  - image: "[[ WIT_IMAGE_URL ]]"
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: F8_AUTH_URL
+      value: "[[ F8_AUTH_URL ]]"
+    - name: F8_DEVELOPER_MODE_ENABLED
+      value: "true"
+    - name: F8_POSTGRES_HOST
+      value: "db"
+    - name: SENTRY_DSN
+      value: "http://b6c0ee7c7fa544359be3e55f94c2f889:930a1ed49afc4366a1369b0c52bb8bfd@sentry.sentry:9000/2"
+
+services:
+- name: wit
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30000

@@ -1,0 +1,13 @@
+name: db-auth
+deployments:
+- containers:
+  - image: registry.centos.org/postgresql/postgresql:9.6
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: POSTGRESQL_ADMIN_PASSWORD
+      value: mysecretpassword
+
+services:
+- name: db-auth
+  ports:
+  - port: 5432

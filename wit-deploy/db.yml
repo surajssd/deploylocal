@@ -1,0 +1,15 @@
+name: db
+deployments:
+- containers:
+  - image: registry.centos.org/postgresql/postgresql:9.6
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: POSTGRESQL_ADMIN_PASSWORD
+      value: mysecretpassword
+
+services:
+- name: db
+  type: NodePort
+  ports:
+  - port: 5432
+    nodePort: 32000

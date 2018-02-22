@@ -1,0 +1,16 @@
+name: sentry-redis
+
+deployments:
+- containers:
+  - image: docker.io/redis:3.2-alpine
+    volumeMounts:
+    - name: sentry-redis
+      mountPath: /data
+
+services:
+- portMappings:
+  - 6379
+
+volumeClaims:
+- name: sentry-redis
+  size: 1Gi

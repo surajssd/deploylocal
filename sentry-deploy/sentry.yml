@@ -1,0 +1,141 @@
+name: sentry
+
+deployments:
+- initContainers:
+  - name: upgrade
+    image: docker.io/sentry:8.22
+    imagePullPolicy: IfNotPresent
+    # args: ["sentry", "upgrade"]
+    command: ["/bin/sh","-c"]
+    args: ["yes | sentry upgrade"]
+
+    env:
+    - name: SENTRY_SECRET_KEY
+      value: mysecretpassword
+    - name: SENTRY_DB_USER
+      value: postgres
+      # value: sentry
+    - name: SENTRY_DB_NAME
+      value: sentry
+    - name: SENTRY_DB_PASSWORD
+      value: mysecretpassword
+    - name: SENTRY_POSTGRES_HOST
+      value: sentry-postgres
+    - name: SENTRY_POSTGRES_PORT
+      value: "5432"
+    - name: SENTRY_REDIS_HOST
+      value: sentry-redis
+    - name: SENTRY_REDIS_PORT
+      value: "6379"      
+    - name: TINI_SUBREAPER
+      value: "1"
+    # - name: SENTRY_EMAIL_USER
+    #   value: admin@sentry.local
+    - name: SENTRY_EMAIL_PASSWORD
+      value: mysecretpassword
+
+  containers:
+  - image: docker.io/sentry:8.22
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh","-c"]
+    args: ["sentry run web --loglevel=DEBUG"]
+    env:
+    - name: SENTRY_SECRET_KEY
+      value: mysecretpassword
+    - name: SENTRY_DB_USER
+      value: postgres
+      # value: sentry
+    - name: SENTRY_DB_NAME
+      value: sentry
+    - name: SENTRY_DB_PASSWORD
+      value: mysecretpassword
+    - name: SENTRY_POSTGRES_HOST
+      value: sentry-postgres
+    - name: SENTRY_POSTGRES_PORT
+      value: "5432"
+    - name: SENTRY_REDIS_HOST
+      value: sentry-redis
+    - name: SENTRY_REDIS_PORT
+      value: "6379"      
+    - name: TINI_SUBREAPER
+      value: "1"
+    # - name: SENTRY_EMAIL_USER
+    #   value: admin@sentry.local
+    - name: SENTRY_EMAIL_PASSWORD
+      value: mysecretpassword
+
+services:
+- type: NodePort
+  ports:
+  - port: 9000
+    nodePort: 32222
+
+---
+
+name: sentry-workers
+
+deployments:
+- containers:
+  - image: docker.io/sentry:8.22
+    imagePullPolicy: IfNotPresent
+    args: ["run", "worker"]
+    env:
+    - name: SENTRY_SECRET_KEY
+      value: mysecretpassword
+    - name: SENTRY_DB_USER
+      value: postgres
+      # value: sentry
+    - name: SENTRY_DB_NAME
+      value: sentry
+    - name: SENTRY_DB_PASSWORD
+      value: mysecretpassword
+    - name: SENTRY_POSTGRES_HOST
+      value: sentry-postgres
+    - name: SENTRY_POSTGRES_PORT
+      value: "5432"
+    - name: SENTRY_REDIS_HOST
+      value: sentry-redis
+    - name: SENTRY_REDIS_PORT
+      value: "6379"      
+    - name: C_FORCE_ROOT
+      value: "1"
+    - name: TINI_SUBREAPER
+      value: "1"
+    # - name: SENTRY_EMAIL_USER
+    #   value: admin@sentry.local
+    - name: SENTRY_EMAIL_PASSWORD
+      value: mysecretpassword
+
+---
+
+name: sentry-cron
+
+deployments:
+- containers:
+  - image: docker.io/sentry:8.22
+    imagePullPolicy: IfNotPresent
+    args: ["run", "cron"]
+    env:
+    - name: SENTRY_SECRET_KEY
+      value: mysecretpassword
+    - name: SENTRY_DB_USER
+      value: postgres
+      # value: sentry
+    - name: SENTRY_DB_NAME
+      value: sentry
+    - name: SENTRY_DB_PASSWORD
+      value: mysecretpassword
+    - name: SENTRY_POSTGRES_HOST
+      value: sentry-postgres
+    - name: SENTRY_POSTGRES_PORT
+      value: "5432"
+    - name: SENTRY_REDIS_HOST
+      value: sentry-redis
+    - name: SENTRY_REDIS_PORT
+      value: "6379"      
+    - name: TINI_SUBREAPER
+      value: "1"
+    # - name: SENTRY_EMAIL_USER
+    #   value: admin@sentry.local
+    - name: SENTRY_EMAIL_PASSWORD
+      value: mysecretpassword

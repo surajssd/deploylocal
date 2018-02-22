@@ -1,0 +1,18 @@
+name: sentry-postgres
+deployments:
+- containers:
+  - image: registry.centos.org/postgresql/postgresql:9.6
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: POSTGRESQL_ADMIN_PASSWORD
+      value: mysecretpassword
+    - name: POSTGRESQL_PASSWORD
+      value: mysecretpassword
+    - name: POSTGRESQL_USER
+      value: sentry
+    - name: POSTGRESQL_DATABASE
+      value: sentry
+
+services:
+- ports:
+  - port: 5432
