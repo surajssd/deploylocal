@@ -1,0 +1,84 @@
+name: f8tenant
+
+deployments:
+- containers:
+  - image: fabric8/fabric8-tenant
+    env:
+    - name: "KUBERNETES_NAMESPACE"
+      valueFrom:
+        fieldRef:
+          fieldPath: "metadata.namespace"
+    - name: F8_KUBERNETES_MODE
+      value: "true"
+    - name: TENANT_EXPOSER
+      value: Route
+    - name: F8_CONSOLE_URL
+      value: http://fabric8
+    - name: F8_KEYCLOAK_URL
+      value: http://keycloak
+    - name: F8_WIT_URL
+      value: http://wit.wit-dep:8080
+    - name: F8_DEVELOPER_MODE_ENABLED
+      value: "true"
+    - name: F8_OPENSHIFT_TENANT_MASTERURL
+      value: https://kubernetes.default:443
+    - name: F8_OPENSHIFT_USE_CURRENT_CLUSTER
+      value: "true"
+    - name: F8_API_SERVER_INSECURE_SKIP_TLS_VERIFY
+      value: "true"
+    - name: F8_POSTGRES_CONNECTION_MAXIDLE
+      value: "90"
+    - name: F8_POSTGRES_CONNECTION_MAXOPEN
+      value: "90"    
+    - name: F8_POSTGRES_HOST
+      value: init-tenant-db
+    - name: F8_POSTGRES_PASSWORD
+      value: mysecretpassword
+    - name: F8_POSTGRES_PORT
+      value: "5432"
+    - name: F8_POSTGRES_USER
+      value: postgres
+    - name: F8_POSTGRES_DATABASE
+      value: postgres
+    - name: F8_TEMPLATE_DOMAIN
+      value: "d800.free-int.openshiftapps.com"
+    - name: F8_TEMPLATE_RECOMMENDER_EXTERNAL_NAME
+      value: recommender.api.prod-preview.openshift.io
+    - name: F8_TEMPLATE_RECOMMENDER_API_TOKEN
+      value: foo
+    - name: KEYCLOAK_SKIP_HOST_VERIFY
+      value: "true"
+    - name: DISABLE_OSO_QUOTAS
+      value: "true"
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /api/status
+        port: 8080
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: f8tenant
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /api/status
+        port: 8080
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  serviceAccountName: init-tenant
+
+services:
+- ports:
+  - port: 80
+    targetPort: 8080
+   

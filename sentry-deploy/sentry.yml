@@ -38,7 +38,7 @@ deployments:
   - image: docker.io/sentry:8.22
     imagePullPolicy: IfNotPresent
     command: ["/bin/sh","-c"]
-    args: ["sentry run web --loglevel=DEBUG"]
+    args: ["sentry createuser --email z@x.com --password qwerty --superuser; sentry run web --loglevel=DEBUG"]
     env:
     - name: SENTRY_SECRET_KEY
       value: mysecretpassword

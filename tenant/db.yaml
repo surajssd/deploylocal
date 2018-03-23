@@ -1,0 +1,52 @@
+name: init-tenant-db
+
+deployments:
+- containers:
+  - name: init-tenant-db
+    image: registry.centos.org/postgresql/postgresql:9.6
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: POSTGRESQL_ADMIN_PASSWORD
+      value: mysecretpassword
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    livenessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - exec pg_isready --host $POD_IP
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      failureThreshold: 6
+    readinessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - exec pg_isready --host $POD_IP
+      initialDelaySeconds: 5
+      timeoutSeconds: 3
+      periodSeconds: 5
+    ports:
+    - containerPort: 5432
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /var/lib/pgsql
+      name: init-tenant-db
+      readOnly: false
+  volumes:
+  - name: init-tenant-db
+    persistentVolumeClaim:
+      claimName: init-tenant-db
+  
+volumeClaims:
+- name: init-tenant-db
+  size: 1Gi
+
+services:
+- ports:
+  - port: 5432
+    targetPort: 5432

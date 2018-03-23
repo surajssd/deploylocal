@@ -12,7 +12,9 @@ deployments:
     - name: F8_POSTGRES_HOST
       value: "db"
     - name: SENTRY_DSN
-      value: "http://b6c0ee7c7fa544359be3e55f94c2f889:930a1ed49afc4366a1369b0c52bb8bfd@sentry.sentry:9000/2"
+      value: "http://df1b1dc603ef43a897d15b6385efb626:2bf7c38f6eea468e93de22a1cf58c3f4@sentry.sentry:9000/2"
+    - name: F8_TENANT_SERVICEURL
+      value: "http://f8tenant.tenant-dep:80"
 
 services:
 - name: wit
