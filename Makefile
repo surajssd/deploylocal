@@ -30,3 +30,11 @@ sentry-undeploy: login
 .PHONY: login
 login:
 	oc login -u developer -p developer
+
+.PHONY: tenant-deploy
+tenant-deploy: login
+	./tenant-deploy.sh
+
+.PHONY: tenant-undeploy
+tenant-undeploy: login
+	oc delete project tenant-dep
