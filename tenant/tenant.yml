@@ -16,6 +16,8 @@ deployments:
       value: http://fabric8
     - name: F8_KEYCLOAK_URL
       value: http://keycloak
+    - name: F8_AUTH_URL
+      value: http://auth.wit-dep:8089
     - name: F8_WIT_URL
       value: http://wit.wit-dep:8080
     - name: F8_DEVELOPER_MODE_ENABLED
