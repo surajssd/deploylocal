@@ -1,0 +1,25 @@
+name: grafana
+
+deployments:
+- containers:
+  - image: wkulhanek/grafana
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: GF_SECURITY_ADMIN_PASSWORD
+      value: secret
+    volumeMounts:
+    - name: grafana-lib
+      mountPath: /var/lib/grafana
+    - name: grafana-log
+      mountPath: /var/log/grafana
+
+services:
+- ports:
+  - port: 3000
+    targetPort: 3000
+
+volumeClaims:
+- name: grafana-lib
+  size: 500Mi
+- name: grafana-log
+  size: 500Mi
