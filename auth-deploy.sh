@@ -6,12 +6,9 @@ export MINISHIFT_HOSTS_ENTRY=http://minishift.local
 export MINISHIFT_URL=http://$(getent hosts minishift.local | awk '{ print $1 }')
 
 oc login -u developer -p developer 
-oc new-project wit-dep
+oc new-project auth-dep
 
-kedge apply -f wit-deploy/db.yml
+export AUTH_WIT_URL=$MINISHIFT_HOSTS_ENTRY:30000 
+export AUTH_IMAGE_URL=fabric8/fabric8-auth:dev
 
-# Create WIT pod
-export F8_AUTH_URL=$MINISHIFT_URL:31000 
-export WIT_IMAGE_URL=fabric8/fabric8-wit
-
-kedge apply -f wit-deploy/wit.yml
+kedge apply -f auth-deploy/db-auth.yml -f auth-deploy/auth.yml

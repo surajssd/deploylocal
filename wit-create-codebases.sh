@@ -28,7 +28,7 @@ for space in $spaces; do
             "data": { 
                 "attributes": { 
                     "type": "git",
-                    "url": "https://github.com/surajssd/byebyeworld"
+                    "url": "https://github.com/surajssd/heyheyworld"
                 },
                 "type": "codebases"
             }

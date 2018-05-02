@@ -1,9 +1,9 @@
-.PHONY: start-openshift
-start-openshift:
+.PHONY: openshift-start
+openshift-start:
 	./start-openshift.sh
 
-.PHONY: stop-openshift
-stop-openshift:
+.PHONY: openshift-stop
+openshift-stop:
 	oc cluster down
 
 
@@ -22,6 +22,10 @@ wit-undeploy: login
 .PHONY: wit-create-spaces
 wit-create-spaces:
 	./wit-create-spaces.sh
+
+.PHONY: wit-create-codebases
+wit-create-codebases:
+	./wit-create-codebases.sh
 
 .PHONY: sentry-deploy
 sentry-deploy: login
@@ -54,3 +58,15 @@ prometheus-deploy: login
 .PHONY: prometheus-undeploy
 prometheus-undeploy:
 	kedge delete -f prometheus/prometheus.yml
+
+.PHONY: auth-build
+auth-build:
+	./auth-build.sh
+
+.PHONY: auth-deploy
+auth-deploy:
+	./auth-deploy.sh
+
+.PHONY: auth-undeploy
+auth-undeploy:
+	oc delete project auth-dep
