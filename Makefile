@@ -6,6 +6,9 @@ openshift-start:
 openshift-stop:
 	oc cluster down
 
+.PHONY: install-kedge
+install-kedge:
+	./install-kedge.sh
 
 .PHONY: wit-build-deploy
 wit-build-deploy: login
@@ -28,7 +31,7 @@ wit-create-codebases:
 	./wit-create-codebases.sh
 
 .PHONY: sentry-deploy
-sentry-deploy: login
+sentry-deploy: login install-kedge
 	./sentry-deploy.sh
 
 .PHONY: sentry-undeploy
@@ -40,7 +43,7 @@ login:
 	oc login -u developer -p developer
 
 .PHONY: tenant-deploy
-tenant-deploy: login
+tenant-deploy: login install-kedge
 	./tenant-deploy.sh
 
 .PHONY: tenant-undeploy
@@ -52,7 +55,7 @@ tenant-build-deploy: login
 	./tenant-build.sh
 
 .PHONY: prometheus-deploy
-prometheus-deploy: login
+prometheus-deploy: login install-kedge
 	./prometheus-deploy.sh
 
 .PHONY: prometheus-undeploy
@@ -64,7 +67,7 @@ auth-build:
 	./auth-build.sh
 
 .PHONY: auth-deploy
-auth-deploy:
+auth-deploy: install-kedge
 	./auth-deploy.sh
 
 .PHONY: auth-undeploy
