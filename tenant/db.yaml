@@ -1,8 +1,8 @@
-name: init-tenant-db
+name: tenant-db
 
 deployments:
 - containers:
-  - name: init-tenant-db
+  - name: tenant-db
     image: registry.centos.org/postgresql/postgresql:9.6
     imagePullPolicy: IfNotPresent
     env:
@@ -35,15 +35,15 @@ deployments:
       protocol: TCP
     volumeMounts:
     - mountPath: /var/lib/pgsql
-      name: init-tenant-db
+      name: tenant-db
       readOnly: false
   volumes:
-  - name: init-tenant-db
+  - name: tenant-db
     persistentVolumeClaim:
-      claimName: init-tenant-db
+      claimName: tenant-db
   
 volumeClaims:
-- name: init-tenant-db
+- name: tenant-db
   size: 1Gi
 
 services:

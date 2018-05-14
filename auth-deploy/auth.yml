@@ -5,13 +5,20 @@ deployments:
     imagePullPolicy: IfNotPresent
     env:
     - name: AUTH_WIT_URL
-      value: "[[ AUTH_WIT_URL ]]"
+      value: "http://wit.wit-dep:8080"
     - name: AUTH_DEVELOPER_MODE_ENABLED
       value: "true"
     - name: AUTH_POSTGRES_HOST
       value: "db-auth"
     - name: AUTH_POSTGRES_PORT
       value: "5432"
+    volumeMounts:
+    - name: oso-clusters
+      mountPath: /etc/fabric8/
+  volumes:
+  - name: oso-clusters
+    configMap:
+      name: clusters
 
 services:
 - name: auth

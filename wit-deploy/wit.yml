@@ -8,14 +8,23 @@ deployments:
     - name: F8_AUTH_URL
       # value: "https://auth.openshift.io/"
       value: "[[ F8_AUTH_URL ]]"
+      # value: "http://auth.auth-dep:8089"
     - name: F8_DEVELOPER_MODE_ENABLED
       value: "true"
     - name: F8_POSTGRES_HOST
       value: "db"
     - name: F8_DIAGNOSE_HTTP_ADDRESS
       value: 0.0.0.0:40404
+    - name: F8_AUTHZ_ENABLED
+      value: "false"
     - name: SENTRY_DSN
       value: "http://8738b061884a448c993d7ec88a6dd835:534baea7cab64c3a9f0ff81b9fb71e6f@sentry.sentry:9000/2"
+    - name: "F8_DEPLOYMENTS_SERVICEURL"
+      value: "http://localhost:8080"
+    - name: "F8_CODEBASE_SERVICEURL"
+      value: "http://localhost:8080"
+    - name: "F8_TENANT_SERVICEURL"
+      value: "http://f8tenant.tenant-dep"
     # - name: F8_TENANT_SERVICEURL
     #   value: "http://f8tenant.tenant-dep:80"
     # - name: FABRIC8_WIT_API_URL
