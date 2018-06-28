@@ -50,3 +50,5 @@ services:
 - ports:
   - port: 5432
     targetPort: 5432
+    nodePort: 32032
+  type: NodePort
